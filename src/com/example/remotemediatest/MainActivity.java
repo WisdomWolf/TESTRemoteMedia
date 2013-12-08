@@ -35,8 +35,8 @@ public class MainActivity extends Activity {
 	private TextView mFlagsTextView;
 	private TextView mStateTextView;
 	private ImageView mArtwork;
-	private int maxWidth = 100;
-	private int maxHeight = 100;
+	private int maxWidth = 400;
+	private int maxHeight = 400;
 	
 	
 	private RemoteMetadataProvider mProvider;
