@@ -273,7 +273,7 @@ public class MainActivity extends Activity {
 		super.onResume();
 		
 		//acquiring remote media controls
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1){
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2){
 			mProvider.acquireRemoteControls();
 		} else {
 			mProvider.acquireRemoteControls(maxWidth, maxHeight);
