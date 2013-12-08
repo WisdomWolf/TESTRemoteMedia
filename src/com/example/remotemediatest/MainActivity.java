@@ -2,6 +2,18 @@ package com.example.remotemediatest;
 
 import java.util.List;
 
+import android.app.Activity;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Bitmap;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.woodblockwithoutco.remotemetadataprovider.media.RemoteMetadataProvider;
 import com.woodblockwithoutco.remotemetadataprovider.media.enums.MediaCommand;
 import com.woodblockwithoutco.remotemetadataprovider.media.enums.PlayState;
@@ -10,18 +22,6 @@ import com.woodblockwithoutco.remotemetadataprovider.media.listeners.OnArtworkCh
 import com.woodblockwithoutco.remotemetadataprovider.media.listeners.OnMetadataChangeListener;
 import com.woodblockwithoutco.remotemetadataprovider.media.listeners.OnPlaybackStateChangeListener;
 import com.woodblockwithoutco.remotemetadataprovider.media.listeners.OnRemoteControlFeaturesChangeListener;
-
-
-import android.os.Bundle;
-import android.app.Activity;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.Bitmap;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -35,6 +35,8 @@ public class MainActivity extends Activity {
 	private TextView mFlagsTextView;
 	private TextView mStateTextView;
 	private ImageView mArtwork;
+	private int maxWidth = 25;
+	private int maxHeight = 25;
 	
 	
 	private RemoteMetadataProvider mProvider;
@@ -271,7 +273,12 @@ public class MainActivity extends Activity {
 		super.onResume();
 		
 		//acquiring remote media controls
-		mProvider.acquireRemoteControls();
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1){
+			mProvider.acquireRemoteControls();
+		} else {
+			mProvider.acquireRemoteControls(maxWidth, maxHeight);
+		}
+		
 	}
 	
 	@Override
