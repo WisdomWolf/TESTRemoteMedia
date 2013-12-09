@@ -289,6 +289,12 @@ public class MainActivity extends Activity {
 //			mProvider.acquireRemoteControls(maxWidth, maxHeight);
 //		}
 		
+		//KitKat
+		Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
+		i.putExtra("command", "registerRC");
+		sendBroadcast(i);
+	
+		
 	}
 	
 	@Override
@@ -297,6 +303,11 @@ public class MainActivity extends Activity {
 		
 		//dropping remote media controls
 //		mProvider.dropRemoteControls(true);
+		
+		//KitKat
+		Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
+		i.putExtra("command", "unregisterRC");
+		sendBroadcast(i);
 	}
 	
 	class NotificationReceiver extends BroadcastReceiver{
