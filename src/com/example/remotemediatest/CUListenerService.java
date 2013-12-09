@@ -2,17 +2,48 @@ package com.example.remotemediatest;
 
 
 
+
+
 import android.annotation.TargetApi;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.media.AudioManager;
+import android.media.MediaMetadataEditor;
+import android.media.RemoteControlClient;
 import android.media.RemoteController;
 import android.media.RemoteController.OnClientUpdateListener;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
+import android.util.Log;
+import android.media.MediaMetadataRetriever;
 
 
 @TargetApi(19)
 public class CUListenerService extends NotificationListenerService implements OnClientUpdateListener {
 	
-	private OnClientUpdateListener mClientUpdateListener;
+	private String songArtist;
+	private String songTitle;
+	private RemoteController mRemoteController;
+	private AudioManager mAudioManager;
+	private CULServiceReceiver cuservicereceiver;
+	
+	@Override
+    public void onCreate() {
+        super.onCreate();
+        cuservicereceiver = new CULServiceReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
+        registerReceiver(cuservicereceiver,filter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(cuservicereceiver);
+    }
 	
 	@Override
 	public void onNotificationPosted(StatusBarNotification sbn){
@@ -49,6 +80,12 @@ public class CUListenerService extends NotificationListenerService implements On
 	@Override
 	public void onClientMetadataUpdate(RemoteController.MetadataEditor metadataEditor){
 		//Called whenever new metadata is available.
+		songArtist = metadataEditor.getString(MediaMetadataRetriever.METADATA_KEY_ARTIST, "");
+		songTitle = metadataEditor.getString(MediaMetadataRetriever.METADATA_KEY_ARTIST, "");
+		Intent i = new  Intent("com.example.remotemediatest.METADATA_YAY");
+        i.putExtra("songArtist", songArtist);
+        i.putExtra("songTitle", songTitle);
+        sendBroadcast(i);
 	}
 	
 	/**
@@ -91,7 +128,27 @@ public class CUListenerService extends NotificationListenerService implements On
 		//Called whenever the transport control flags have changed.
 	}
 	
-	public void setOnClientUpdateListener(OnClientUpdateListener l) {
-		mClientUpdateListener = l;
+	public void acquireRemoteControls(){
+		mAudioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+		mRemoteController = new RemoteController(this, this);
+		mAudioManager.registerRemoteController(mRemoteController);
 	}
+	
+	public void dropRemoteControls(boolean destroyRemoteControls) {
+		mAudioManager.unregisterRemoteController(mRemoteController);
+	}
+	
+	 class CULServiceReceiver extends BroadcastReceiver{
+
+	        @Override
+	        public void onReceive(Context context, Intent intent) {
+	        	if(intent.hasExtra("command")){
+	        		 if(intent.getStringExtra("command").equals("registerRC")){
+	        			acquireRemoteControls();
+	        		 }
+	        		 else if (intent.getStringExtra("command").equals("unregisterRC")) {
+	        			 dropRemoteControls(true);
+	        		 }
+	        	}
+	        }
 }
