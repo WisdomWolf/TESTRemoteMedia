@@ -5,6 +5,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
+import android.media.RemoteController;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -13,15 +14,6 @@ import android.view.View.OnLongClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.woodblockwithoutco.remotemetadataprovider.media.RemoteMetadataProvider;
-import com.woodblockwithoutco.remotemetadataprovider.media.enums.MediaCommand;
-import com.woodblockwithoutco.remotemetadataprovider.media.enums.PlayState;
-import com.woodblockwithoutco.remotemetadataprovider.media.enums.RemoteControlFeature;
-import com.woodblockwithoutco.remotemetadataprovider.media.listeners.OnArtworkChangeListener;
-import com.woodblockwithoutco.remotemetadataprovider.media.listeners.OnMetadataChangeListener;
-import com.woodblockwithoutco.remotemetadataprovider.media.listeners.OnPlaybackStateChangeListener;
-import com.woodblockwithoutco.remotemetadataprovider.media.listeners.OnRemoteControlFeaturesChangeListener;
 
 public class MainActivity extends Activity {
 
@@ -39,7 +31,8 @@ public class MainActivity extends Activity {
 	private int maxHeight = 400;
 	
 	
-	private RemoteMetadataProvider mProvider;
+//	private RemoteMetadataProvider mProvider;
+	private RemoteController mRemoteController;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,20 +50,23 @@ public class MainActivity extends Activity {
 		mStateTextView=(TextView)findViewById(R.id.state);
 		
 		//Acquiring instance of RemoteMetadataProvider
-		mProvider=RemoteMetadataProvider.getInstance(this);
+//		mProvider=RemoteMetadataProvider.getInstance(this);
 		
 		//setting up metadata listener
-		mProvider.setOnMetadataChangeListener(new OnMetadataChangeListener() {
-			@Override
-			public void onMetadataChanged(String artist, String title,
-					String album, String albumArtist, long duration) {
-				mArtistTextView.setText("ARTIST: "+artist);
-				mTitleTextView.setText("TITLE: "+title);
-				mAlbumTextView.setText("ALBUM: "+album);
-				mAlbumArtistTextView.setText("ALBUM ARTIST: "+albumArtist);
-				mDurationTextView.setText("DURATION: "+(duration/1000)+"s");
-			}
-		});
+//		mProvider.setOnMetadataChangeListener(new OnMetadataChangeListener() {
+//			@Override
+//			public void onMetadataChanged(String artist, String title,
+//					String album, String albumArtist, long duration) {
+//				mArtistTextView.setText("ARTIST: "+artist);
+//				mTitleTextView.setText("TITLE: "+title);
+//				mAlbumTextView.setText("ALBUM: "+album);
+//				mAlbumArtistTextView.setText("ALBUM ARTIST: "+albumArtist);
+//				mDurationTextView.setText("DURATION: "+(duration/1000)+"s");
+//			}
+//		});
+		
+		//setting up KitKate metadata listener
+		
 		
 		//setting up artwork listener
 		mProvider.setOnArtworkChangeListener(new OnArtworkChangeListener() {
