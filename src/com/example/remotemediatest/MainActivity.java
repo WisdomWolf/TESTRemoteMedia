@@ -68,6 +68,7 @@ public class MainActivity extends Activity {
 		//setting up KitKate metadata listener
 		
 		
+		
 		//setting up artwork listener
 		mProvider.setOnArtworkChangeListener(new OnArtworkChangeListener() {
 			@Override

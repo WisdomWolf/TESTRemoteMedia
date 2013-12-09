@@ -1,5 +1,7 @@
 package com.example.remotemediatest;
 
+
+
 import android.annotation.TargetApi;
 import android.media.RemoteController;
 import android.media.RemoteController.OnClientUpdateListener;
@@ -9,6 +11,8 @@ import android.service.notification.StatusBarNotification;
 
 @TargetApi(19)
 public class CUListenerService extends NotificationListenerService implements OnClientUpdateListener {
+	
+	private OnClientUpdateListener mClientUpdateListener;
 	
 	@Override
 	public void onNotificationPosted(StatusBarNotification sbn){
@@ -85,5 +89,9 @@ public class CUListenerService extends NotificationListenerService implements On
 	@Override
 	public void onClientTransportControlUpdate(int transportControlFlags){
 		//Called whenever the transport control flags have changed.
+	}
+	
+	public void setOnClientUpdateListener(OnClientUpdateListener l) {
+		mClientUpdateListener = l;
 	}
 }
