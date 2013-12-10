@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.media.RemoteController;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ public class MainActivity extends Activity {
 
 	private static final String NO_CLIENT = "Client state: NO CLIENT";
 	protected static final String CLIENT_ACTIVE = "Client state: ACTIVE";
+	private static final String TAG = "RemoteMediaTest";
 	private TextView mArtistTextView;
 	private TextView mTitleTextView;
 	private TextView mAlbumArtistTextView;
@@ -125,10 +127,15 @@ public class MainActivity extends Activity {
 //					if(!mProvider.sendMediaCommand(MediaCommand.PLAY_PAUSE)) {
 //						Toast.makeText(getApplicationContext(), "Failed to send PLAY_PAUSE_EVENT", Toast.LENGTH_SHORT).show();
 				} else {
-					if(!mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.ACTION_DOWN)))
-						if(!mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.ACTION_UP))) {
-							Toast.makeText(getApplicationContext(), "Failed to send PLAY_PAUSE_EVENT", Toast.LENGTH_SHORT).show();
+					try {
+						if(!mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.ACTION_DOWN)))
+							if(!mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.ACTION_UP))) {
+								Toast.makeText(getApplicationContext(), "Failed to send PLAY_PAUSE_EVENT", Toast.LENGTH_SHORT).show();
+						}
+					} catch (Exception e) {
+						Log.wtf(TAG, "Play_Pause command failed");
 					}
+					
 				}
 			}
 		});
@@ -308,9 +315,9 @@ public class MainActivity extends Activity {
 //		mProvider.dropRemoteControls(true);
 		
 		//KitKat
-//		Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
-//		i.putExtra("command", "unregisterRC");
-//		sendBroadcast(i);
+		Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
+		i.putExtra("command", "unregisterRC");
+		sendBroadcast(i);
 	}
 	
 	class NotificationReceiver extends BroadcastReceiver{
