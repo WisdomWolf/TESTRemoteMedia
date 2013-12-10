@@ -28,6 +28,7 @@ public class CUListenerService extends NotificationListenerService implements On
 	private RemoteController mRemoteController;
 	private AudioManager mAudioManager;
 	private CULServiceReceiver cuservicereceiver;
+	private static final String TAG = "CUListenerService";
 	
 	@Override
     public void onCreate() {
@@ -140,7 +141,12 @@ public class CUListenerService extends NotificationListenerService implements On
 	}
 	
 	public void dropRemoteControls(boolean destroyRemoteControls) {
-		mAudioManager.unregisterRemoteController(mRemoteController);
+		if (mAudioManager != null) {
+			mAudioManager.unregisterRemoteController(mRemoteController);
+			if (destroyRemoteControls) mRemoteController = null;
+		} else {
+			Log.w(TAG, "Failed to get instance of AudioManager while adropping remote media controls");
+		}
 	}
 	
 	 class CULServiceReceiver extends BroadcastReceiver{
