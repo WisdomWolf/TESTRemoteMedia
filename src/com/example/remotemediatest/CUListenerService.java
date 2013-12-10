@@ -12,13 +12,13 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaMetadataEditor;
+import android.media.MediaMetadataRetriever;
 import android.media.RemoteControlClient;
 import android.media.RemoteController;
 import android.media.RemoteController.OnClientUpdateListener;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
-import android.media.MediaMetadataRetriever;
 
 
 @TargetApi(19)
@@ -85,12 +85,14 @@ public class CUListenerService extends NotificationListenerService implements On
 		String albumArtist = metadataEditor.getString(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST, "");
 		String albumTitle = metadataEditor.getString(MediaMetadataRetriever.METADATA_KEY_ALBUM, "");
 		long songDuration = metadataEditor.getLong(MediaMetadataRetriever.METADATA_KEY_DURATION, 10);
+		Bitmap coverArt = metadataEditor.getBitmap(MediaMetadataEditor.BITMAP_KEY_ARTWORK, null);
 		Intent i = new  Intent("com.example.remotemediatest.METADATA_YAY");
         i.putExtra("Song_Artist", songArtist);
         i.putExtra("Song_Title", songTitle);
         i.putExtra("Album_Artist", albumArtist);
         i.putExtra("Album_Title", albumTitle);
         i.putExtra("Song_Duration", songDuration);
+        i.putExtra("Cover_Art", coverArt);
         sendBroadcast(i);
 	}
 	
@@ -137,6 +139,7 @@ public class CUListenerService extends NotificationListenerService implements On
 	public void acquireRemoteControls(){
 		mAudioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
 		mRemoteController = new RemoteController(this, this);
+		mRemoteController.setArtworkConfiguration(300, 300);
 		mAudioManager.registerRemoteController(mRemoteController);
 	}
 	

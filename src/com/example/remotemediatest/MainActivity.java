@@ -318,6 +318,8 @@ public class MainActivity extends Activity {
 			mAlbumTextView.setText("ALBUM: " + intent.getStringExtra("Album_Title"));
 			mAlbumArtistTextView.setText("ALBUM ARTIST: " + intent.getStringExtra("Album_Artist"));
 			mDurationTextView.setText("DURATION: " + intent.getLongExtra("Song_Duration", 11));
+			Bitmap coverArt = intent.getParcelableExtra("Cover_Art");
+			mArtwork.setImageBitmap(coverArt);
 		}
 	}
 	
