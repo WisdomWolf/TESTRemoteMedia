@@ -19,6 +19,7 @@ import android.media.RemoteController.OnClientUpdateListener;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
+import android.view.KeyEvent;
 
 
 @TargetApi(19)
@@ -29,6 +30,8 @@ public class CUListenerService extends NotificationListenerService implements On
 	private AudioManager mAudioManager;
 	private CULServiceReceiver cuservicereceiver;
 	private static final String TAG = "CUListenerService";
+	private KeyEvent keyPlayPauseDown = new KeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.ACTION_DOWN);
+	private KeyEvent keyPlayPauseUp = new KeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.ACTION_UP);
 	
 	@Override
     public void onCreate() {
@@ -162,6 +165,10 @@ public class CUListenerService extends NotificationListenerService implements On
 	        		 }
 	        		 else if (intent.getStringExtra("command").equals("unregisterRC")) {
 	        			 dropRemoteControls(true);
+	        		 }
+	        		 else if (intent.getStringExtra("command").equals("PlayPause")) {
+	        			 mRemoteController.sendMediaKeyEvent(keyPlayPauseDown);
+	        			 mRemoteController.sendMediaKeyEvent(keyPlayPauseUp);
 	        		 }
 	        	}
 	        }
