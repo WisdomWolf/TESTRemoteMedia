@@ -25,7 +25,7 @@ import android.util.Log;
 public class CUListenerService extends NotificationListenerService implements OnClientUpdateListener {
 	
 
-	private RemoteController mRemoteController;
+	public RemoteController mRemoteController;
 	private AudioManager mAudioManager;
 	private CULServiceReceiver cuservicereceiver;
 	private static final String TAG = "CUListenerService";

@@ -1,27 +1,23 @@
 package com.example.remotemediatest;
 
-import java.util.List;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.IntentFilter;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.Bitmap;
-import android.media.RemoteController;
-import android.app.Notification;
-import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.BroadcastReceiver;
+import android.graphics.Bitmap;
+import android.media.RemoteController;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.KeyEvent;
 
+@SuppressLint("NewApi")
 public class MainActivity extends Activity {
 
 	private static final String NO_CLIENT = "Client state: NO CLIENT";
@@ -122,14 +118,21 @@ public class MainActivity extends Activity {
 		
 		//Also, about multiple listeners. I know it's a bad practice, but here they are just 
 		//to isolate actions, so you can get a better grasp on how my library works.
-//		findViewById(R.id.play_pause).setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if(!mProvider.sendMediaCommand(MediaCommand.PLAY_PAUSE)) {
-//					Toast.makeText(getApplicationContext(), "Failed to send PLAY_PAUSE_EVENT", Toast.LENGTH_SHORT).show();
-//				}
-//			}	
-//		});
+		findViewById(R.id.play_pause).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
+//					if(!mProvider.sendMediaCommand(MediaCommand.PLAY_PAUSE)) {
+//						Toast.makeText(getApplicationContext(), "Failed to send PLAY_PAUSE_EVENT", Toast.LENGTH_SHORT).show();
+				} else {
+					if(!mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.ACTION_DOWN))
+						|| !mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.ACTION_UP))) {
+						Toast.makeText(getApplicationContext(), "Failed to send PLAY_PAUSE_EVENT", Toast.LENGTH_SHORT).show();
+					}
+				}
+			}
+		});
+		
 		
 //		findViewById(R.id.play_pause).setOnLongClickListener(new OnLongClickListener() {
 //			@Override
