@@ -283,6 +283,11 @@ public class MainActivity extends Activity {
 	}
 	
 	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		unregisterReceiver(nReceiver);
+	}
+	@Override
 	public void onResume() {
 		super.onResume();
 		
