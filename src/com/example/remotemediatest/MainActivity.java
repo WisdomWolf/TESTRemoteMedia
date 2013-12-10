@@ -305,9 +305,9 @@ public class MainActivity extends Activity {
 //		mProvider.dropRemoteControls(true);
 		
 		//KitKat
-		Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
-		i.putExtra("command", "unregisterRC");
-		sendBroadcast(i);
+//		Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
+//		i.putExtra("command", "unregisterRC");
+//		sendBroadcast(i);
 	}
 	
 	class NotificationReceiver extends BroadcastReceiver{
