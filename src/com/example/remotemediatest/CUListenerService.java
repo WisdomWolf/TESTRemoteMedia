@@ -30,8 +30,8 @@ public class CUListenerService extends NotificationListenerService implements On
 	private AudioManager mAudioManager;
 	private CULServiceReceiver cuservicereceiver;
 	private static final String TAG = "CUListenerService";
-	private KeyEvent keyPlayPauseDown = new KeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.ACTION_DOWN);
-	private KeyEvent keyPlayPauseUp = new KeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.ACTION_UP);
+	private KeyEvent keyPlayPauseDown = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
+	private KeyEvent keyPlayPauseUp = new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
 	
 	@Override
     public void onCreate() {
