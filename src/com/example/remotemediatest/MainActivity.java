@@ -128,14 +128,10 @@ public class MainActivity extends Activity {
 //						Toast.makeText(getApplicationContext(), "Failed to send PLAY_PAUSE_EVENT", Toast.LENGTH_SHORT).show();
 				} else {
 					try {
-						if(mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.ACTION_DOWN))) {
-							Log.d(TAG,"Play_Pause_Down sent.");
-							if(!mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.ACTION_UP))) {
-								Toast.makeText(getApplicationContext(), "Failed to send PLAY_PAUSE_EVENT", Toast.LENGTH_SHORT).show();
-							} else {
-								Log.d(TAG,"Play_Pause_Up sent.");
-							}
-						}
+						mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.ACTION_DOWN));
+						Log.d(TAG,"Play_Pause_Down sent.");
+						mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.ACTION_UP));
+						Log.d(TAG,"Play_Pause_Up sent.");
 					} catch (Exception e) {
 						Log.wtf(TAG, "Play_Pause command failed");
 					}
