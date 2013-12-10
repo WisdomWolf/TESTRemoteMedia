@@ -144,14 +144,21 @@ public class MainActivity extends Activity {
 //			}
 //		});
 		
-//		findViewById(R.id.play).setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if(!mProvider.sendMediaCommand(MediaCommand.PLAY)) {
-//					Toast.makeText(getApplicationContext(), "Failed to send PLAY_EVENT", Toast.LENGTH_SHORT).show();
-//				}
-//			}	
-//		});
+		findViewById(R.id.play).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
+//					if(!mProvider.sendMediaCommand(MediaCommand.PLAY)) {
+//						Toast.makeText(getApplicationContext(), "Failed to send PLAY_EVENT", Toast.LENGTH_SHORT).show();
+//					}
+				} else {
+					Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
+					i.putExtra("command", "Play");
+					sendBroadcast(i);
+				}
+				
+			}	
+		});
 		
 //		findViewById(R.id.play).setOnLongClickListener(new OnLongClickListener() {
 //			@Override
@@ -162,14 +169,19 @@ public class MainActivity extends Activity {
 //			}
 //		});
 		
-//		findViewById(R.id.pause).setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if(!mProvider.sendMediaCommand(MediaCommand.PAUSE)) {
-//					Toast.makeText(getApplicationContext(), "Failed to send PAUSE_EVENT", Toast.LENGTH_SHORT).show();
-//				}
-//			}	
-//		});
+		findViewById(R.id.pause).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
+//					if(!mProvider.sendMediaCommand(MediaCommand.PAUSE)) {
+//						Toast.makeText(getApplicationContext(), "Failed to send PAUSE_EVENT", Toast.LENGTH_SHORT).show();
+				} else {
+					Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
+					i.putExtra("command", "Pause");
+					sendBroadcast(i);
+				}
+			}	
+		});
 		
 //		findViewById(R.id.pause).setOnLongClickListener(new OnLongClickListener() {
 //			@Override
@@ -180,14 +192,19 @@ public class MainActivity extends Activity {
 //			}
 //		});
 		
-//		findViewById(R.id.next).setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if(!mProvider.sendMediaCommand(MediaCommand.NEXT)) {
-//					Toast.makeText(getApplicationContext(), "Failed to send NEXT_EVENT", Toast.LENGTH_SHORT).show();
-//				}
-//			}	
-//		});
+		findViewById(R.id.next).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
+//					if(!mProvider.sendMediaCommand(MediaCommand.NEXT)) {
+//						Toast.makeText(getApplicationContext(), "Failed to send NEXT_EVENT", Toast.LENGTH_SHORT).show();
+				} else {
+					Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
+					i.putExtra("command", "Next");
+					sendBroadcast(i);
+				}
+			}	
+		});
 		
 //		findViewById(R.id.next).setOnLongClickListener(new OnLongClickListener() {
 //			@Override
@@ -198,14 +215,19 @@ public class MainActivity extends Activity {
 //			}
 //		});
 		
-//		findViewById(R.id.prev).setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if(!mProvider.sendMediaCommand(MediaCommand.PREVIOUS)) {
-//					Toast.makeText(getApplicationContext(), "Failed to send PREVIOUS_EVENT", Toast.LENGTH_SHORT).show();
-//				}
-//			}	
-//		});
+		findViewById(R.id.prev).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
+//					if(!mProvider.sendMediaCommand(MediaCommand.PREVIOUS)) {
+//						Toast.makeText(getApplicationContext(), "Failed to send PREVIOUS_EVENT", Toast.LENGTH_SHORT).show();
+				} else {
+					Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
+					i.putExtra("command", "Prev");
+					sendBroadcast(i);
+				}
+			}	
+		});
 		
 //		findViewById(R.id.prev).setOnLongClickListener(new OnLongClickListener() {
 //			@Override
@@ -322,6 +344,9 @@ public class MainActivity extends Activity {
 	class NotificationReceiver extends BroadcastReceiver{
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			if (intent.hasExtra("toast")) {
+				Toast.makeText(getApplicationContext(), intent.getStringExtra("toast"), Toast.LENGTH_SHORT).show();
+			}
 			mArtistTextView.setText("ARTIST: " + intent.getStringExtra("Song_Artist"));
 			mTitleTextView.setText("TITLE: " + intent.getStringExtra("Song_Title"));
 			mAlbumTextView.setText("ALBUM: " + intent.getStringExtra("Album_Title"));

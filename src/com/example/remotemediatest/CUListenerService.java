@@ -69,6 +69,10 @@ public class CUListenerService extends NotificationListenerService implements On
 	@Override
 	public void onClientChange(boolean clearing){
 		//Called whenever all information, previously received through the other methods of the listener, is no longer valid and is about to be refreshed.
+		Log.d(TAG,"Client Change triggered. Clearing = " + clearing);
+		Intent i = new Intent("com.example.remotemediatest.METADATA_YAY");
+		i.putExtra("toast", "Client Change triggered. Clearing = " + clearing);
+		sendBroadcast(i);
 	}
 	
 	/**
@@ -83,6 +87,7 @@ public class CUListenerService extends NotificationListenerService implements On
 	@Override
 	public void onClientMetadataUpdate(RemoteController.MetadataEditor metadataEditor){
 		//Called whenever new metadata is available.
+		Log.d(TAG,"MetadataUpdate received.");
 		String songArtist = metadataEditor.getString(MediaMetadataRetriever.METADATA_KEY_ARTIST, "");
 		String songTitle = metadataEditor.getString(MediaMetadataRetriever.METADATA_KEY_TITLE, "");
 		String albumArtist = metadataEditor.getString(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST, "");
@@ -115,6 +120,10 @@ public class CUListenerService extends NotificationListenerService implements On
 	@Override
 	public void onClientPlaybackStateUpdate(int state, long stateChangeTimeMs, long currentPosMs, float speed){
 		//Called whenever the playback state has changed, and playback position and speed are known.
+		Log.d(TAG,"PlaybackState Updated " + state + " " + stateChangeTimeMs + " " + currentPosMs + " " + speed);
+		Intent i = new Intent("com.example.remotemediatest.METADATA_YAY");
+		i.putExtra("toast", "PlaybackState Updated " + state + " " + stateChangeTimeMs + " " + currentPosMs + " " + speed);
+		sendBroadcast(i);
 	}
 	
 	/**
@@ -127,6 +136,10 @@ public class CUListenerService extends NotificationListenerService implements On
 	@Override
 	public void onClientPlaybackStateUpdate(int state){
 		//Called whenever the playback state has changed.
+		Log.d(TAG,"PlaybackState Updated " + state + ".");
+		Intent i = new Intent("com.example.remotemediatest.METADATA_YAY");
+		i.putExtra("toast", "PlaybackState Updated " + state + ".");
+		sendBroadcast(i);
 	}
 	
 	 /**
@@ -137,6 +150,10 @@ public class CUListenerService extends NotificationListenerService implements On
 	@Override
 	public void onClientTransportControlUpdate(int transportControlFlags){
 		//Called whenever the transport control flags have changed.
+		Log.d(TAG,"TransportControlUpdate: " + transportControlFlags);
+		Intent i = new Intent("com.example.remotemediatest.METADATA_YAY");
+		i.putExtra("toast", "TransportControlUpdate: " + transportControlFlags);
+		sendBroadcast(i);
 	}
 	
 	public void acquireRemoteControls(){
@@ -169,6 +186,22 @@ public class CUListenerService extends NotificationListenerService implements On
 	        		 else if (intent.getStringExtra("command").equals("PlayPause")) {
 	        			 mRemoteController.sendMediaKeyEvent(keyPlayPauseDown);
 	        			 mRemoteController.sendMediaKeyEvent(keyPlayPauseUp);
+	        		 }
+	        		 else if (intent.getStringExtra("command").equals("Play")) {
+	        			 mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY));
+	        			 mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY));
+	        		 }
+	        		 else if (intent.getStringExtra("command").equals("Pause")) {
+	        			 mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PAUSE));
+	        			 mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PAUSE));
+	        		 }
+	        		 else if (intent.getStringExtra("command").equals("Next")) {
+	        			 mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT));
+	        			 mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_NEXT));
+	        		 }
+	        		 else if (intent.getStringExtra("command").equals("Prev")) {
+	        			 mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PREVIOUS));
+	        			 mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PREVIOUS));
 	        		 }
 	        	}
 	        }
