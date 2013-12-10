@@ -125,9 +125,9 @@ public class MainActivity extends Activity {
 //					if(!mProvider.sendMediaCommand(MediaCommand.PLAY_PAUSE)) {
 //						Toast.makeText(getApplicationContext(), "Failed to send PLAY_PAUSE_EVENT", Toast.LENGTH_SHORT).show();
 				} else {
-					if(!mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.ACTION_DOWN))
-						|| !mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.ACTION_UP))) {
-						Toast.makeText(getApplicationContext(), "Failed to send PLAY_PAUSE_EVENT", Toast.LENGTH_SHORT).show();
+					if(!mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.ACTION_DOWN)))
+						if(!mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, KeyEvent.ACTION_UP))) {
+							Toast.makeText(getApplicationContext(), "Failed to send PLAY_PAUSE_EVENT", Toast.LENGTH_SHORT).show();
 					}
 				}
 			}
