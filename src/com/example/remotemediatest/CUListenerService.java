@@ -84,7 +84,7 @@ public class CUListenerService extends NotificationListenerService implements On
 		String songTitle = metadataEditor.getString(MediaMetadataRetriever.METADATA_KEY_TITLE, "");
 		String albumArtist = metadataEditor.getString(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST, "");
 		String albumTitle = metadataEditor.getString(MediaMetadataRetriever.METADATA_KEY_ALBUM, "");
-		String songDuration = metadataEditor.getString(MediaMetadataRetriever.METADATA_KEY_DURATION, "");
+		long songDuration = metadataEditor.getLong(MediaMetadataRetriever.METADATA_KEY_DURATION, 0);
 		Intent i = new  Intent("com.example.remotemediatest.METADATA_YAY");
         i.putExtra("Song_Artist", songArtist);
         i.putExtra("Song_Title", songTitle);
