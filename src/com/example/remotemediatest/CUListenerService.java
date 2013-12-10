@@ -24,8 +24,7 @@ import android.media.MediaMetadataRetriever;
 @TargetApi(19)
 public class CUListenerService extends NotificationListenerService implements OnClientUpdateListener {
 	
-	private String songArtist;
-	private String songTitle;
+
 	private RemoteController mRemoteController;
 	private AudioManager mAudioManager;
 	private CULServiceReceiver cuservicereceiver;
@@ -80,11 +79,17 @@ public class CUListenerService extends NotificationListenerService implements On
 	@Override
 	public void onClientMetadataUpdate(RemoteController.MetadataEditor metadataEditor){
 		//Called whenever new metadata is available.
-		songArtist = metadataEditor.getString(MediaMetadataRetriever.METADATA_KEY_ARTIST, "");
-		songTitle = metadataEditor.getString(MediaMetadataRetriever.METADATA_KEY_ARTIST, "");
+		String songArtist = metadataEditor.getString(MediaMetadataRetriever.METADATA_KEY_ARTIST, "");
+		String songTitle = metadataEditor.getString(MediaMetadataRetriever.METADATA_KEY_TITLE, "");
+		String albumArtist = metadataEditor.getString(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST, "");
+		String albumTitle = metadataEditor.getString(MediaMetadataRetriever.METADATA_KEY_ALBUM, "");
+		String songDuration = metadataEditor.getString(MediaMetadataRetriever.METADATA_KEY_DURATION, "");
 		Intent i = new  Intent("com.example.remotemediatest.METADATA_YAY");
-        i.putExtra("songArtist", songArtist);
-        i.putExtra("songTitle", songTitle);
+        i.putExtra("Song_Artist", songArtist);
+        i.putExtra("Song_Title", songTitle);
+        i.putExtra("Album_Artist", albumArtist);
+        i.putExtra("Album_Title", albumTitle);
+        i.putExtra("Song_Duration", songDuration);
         sendBroadcast(i);
 	}
 	

@@ -313,8 +313,11 @@ public class MainActivity extends Activity {
 	class NotificationReceiver extends BroadcastReceiver{
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			mArtistTextView.setText(intent.getStringExtra("songArtist"));
-			mArtistTextView.setText(intent.getStringExtra("songArtist"));
+			mArtistTextView.setText("ARTIST: " + intent.getStringExtra("Song_Artist"));
+			mTitleTextView.setText("TITLE: " + intent.getStringExtra("Song_Title"));
+			mAlbumTextView.setText("ALBUM: " + intent.getStringExtra("Album_Title"));
+			mAlbumArtistTextView.setText("ALBUM ARTIST: " + intent.getStringExtra("Album_Artist"));
+			mDurationTextView.setText("DURATION: " + (intent.getLongExtra("Song_Duration", 0) / 1000) + "s");
 		}
 	}
 	
