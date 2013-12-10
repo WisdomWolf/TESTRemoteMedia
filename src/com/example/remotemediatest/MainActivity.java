@@ -317,7 +317,7 @@ public class MainActivity extends Activity {
 			mTitleTextView.setText("TITLE: " + intent.getStringExtra("Song_Title"));
 			mAlbumTextView.setText("ALBUM: " + intent.getStringExtra("Album_Title"));
 			mAlbumArtistTextView.setText("ALBUM ARTIST: " + intent.getStringExtra("Album_Artist"));
-			mDurationTextView.setText("DURATION: " + (intent.getLongExtra("Song_Duration", 0) / 1000) + "s");
+			mDurationTextView.setText("DURATION: " + intent.getLongExtra("Song_Duration", 11));
 		}
 	}
 	
