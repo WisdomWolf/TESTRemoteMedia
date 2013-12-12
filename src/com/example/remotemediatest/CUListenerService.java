@@ -176,8 +176,11 @@ public class CUListenerService extends NotificationListenerService implements On
 	        			 mRemoteController.sendMediaKeyEvent(keyPlayPauseUp);
 	        		 }
 	        		 else if (intent.getStringExtra("command").equals("Play")) {
+	        			 //str key = intent.getStringExtra("command");
+	        			 //int keycode = KeyEvent.key;
 	        			 mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY));
 	        			 mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY));
+	        			 //mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.
 	        		 }
 	        		 else if (intent.getStringExtra("command").equals("Pause")) {
 	        			 mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PAUSE));

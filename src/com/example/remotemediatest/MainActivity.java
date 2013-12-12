@@ -373,6 +373,7 @@ public class MainActivity extends Activity {
 			//dropping remote media controls
 			mProvider.dropRemoteControls(true);
 		}
+		//Don't think this is necessary on kitkat, moved to onDestroy() instead
 		//KitKat
 //		Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
 //		i.putExtra("command", "unregisterRC");
