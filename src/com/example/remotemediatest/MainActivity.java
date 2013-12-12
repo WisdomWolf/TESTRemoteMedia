@@ -60,8 +60,11 @@ public class MainActivity extends Activity {
 		mFlagsTextView=(TextView)findViewById(R.id.flags);
 		mStateTextView=(TextView)findViewById(R.id.state);
 		
-		//Acquiring instance of RemoteMetadataProvider
-//		mProvider=RemoteMetadataProvider.getInstance(this);
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+			//Acquiring instance of RemoteMetadataProvider
+			mProvider = RemoteMetadataProvider.getInstance(this);
+		}
+		
 		
 		//setting up metadata listener
 //		mProvider.setOnMetadataChangeListener(new OnMetadataChangeListener() {
