@@ -1,11 +1,15 @@
 package com.example.remotemediatest;
 
-import org.electricwisdom.unifiedremotemetadataprovider.media.*;
-import org.electricwisdom.unifiedremotemetadataprovider.internal.*;
-import org.electricwisdom.unifiedremotemetadataprovider.*;
-import org.electricwisdom.unifiedremotemetadataprovider.media.enums.*;
-import org.electricwisdom.unifiedremotemetadataprovider.media.listeners.*;
+import java.util.List;
 
+import org.electricwisdom.unifiedremotemetadataprovider.media.RemoteMetadataProvider;
+import org.electricwisdom.unifiedremotemetadataprovider.media.enums.MediaCommand;
+import org.electricwisdom.unifiedremotemetadataprovider.media.enums.PlayState;
+import org.electricwisdom.unifiedremotemetadataprovider.media.enums.RemoteControlFeature;
+import org.electricwisdom.unifiedremotemetadataprovider.media.listeners.OnArtworkChangeListener;
+import org.electricwisdom.unifiedremotemetadataprovider.media.listeners.OnMetadataChangeListener;
+import org.electricwisdom.unifiedremotemetadataprovider.media.listeners.OnPlaybackStateChangeListener;
+import org.electricwisdom.unifiedremotemetadataprovider.media.listeners.OnRemoteControlFeaturesChangeListener;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -17,13 +21,11 @@ import android.graphics.Bitmap;
 import android.media.RemoteController;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.KeyEvent;
 
 @SuppressLint("NewApi")
 public class MainActivity extends Activity {
@@ -44,7 +46,7 @@ public class MainActivity extends Activity {
 	private int maxHeight = 300;
 	
 	
-//	private RemoteMetadataProvider mProvider;
+	private RemoteMetadataProvider mProvider;
 	private RemoteController mRemoteController;
 	
 	@Override
@@ -73,53 +75,73 @@ public class MainActivity extends Activity {
 		}
 		
 		
-		//setting up metadata listener
-//		mProvider.setOnMetadataChangeListener(new OnMetadataChangeListener() {
-//			@Override
-//			public void onMetadataChanged(String artist, String title,
-//					String album, String albumArtist, long duration) {
-//				mArtistTextView.setText("ARTIST: "+artist);
-//				mTitleTextView.setText("TITLE: "+title);
-//				mAlbumTextView.setText("ALBUM: "+album);
-//				mAlbumArtistTextView.setText("ALBUM ARTIST: "+albumArtist);
-//				mDurationTextView.setText("DURATION: "+(duration/1000)+"s");
-//			}
-//		});
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+			//setting up metadata listener
+			mProvider
+					.setOnMetadataChangeListener(new OnMetadataChangeListener() {
+						@Override
+						public void onMetadataChanged(String artist,
+								String title, String album, String albumArtist,
+								long duration) {
+							mArtistTextView.setText("ARTIST: " + artist);
+							mTitleTextView.setText("TITLE: " + title);
+							mAlbumTextView.setText("ALBUM: " + album);
+							mAlbumArtistTextView.setText("ALBUM ARTIST: "
+									+ albumArtist);
+							mDurationTextView.setText("DURATION: "
+									+ (duration / 1000) + "s");
+						}
+					});
+		}
+		
 		
 		//setting up KitKate metadata listener
 		
 		
 		
-		//setting up artwork listener
-//		mProvider.setOnArtworkChangeListener(new OnArtworkChangeListener() {
-//			@Override
-//			public void onArtworkChanged(Bitmap artwork) {
-//				mArtwork.setImageBitmap(artwork);
-//			}
-//		});
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+			//setting up artwork listener
+			mProvider.setOnArtworkChangeListener(new OnArtworkChangeListener() {
+				@Override
+				public void onArtworkChanged(Bitmap artwork) {
+					mArtwork.setImageBitmap(artwork);
+				}
+			});
+		}
 		
-		//setting up remote control flags listener
-//		mProvider.setOnRemoteControlFeaturesChangeListener(new OnRemoteControlFeaturesChangeListener() {
-//			@Override
-//			public void onFeaturesChanged(
-//					List<RemoteControlFeature> usesFeatures) {
-//				StringBuilder builder=new StringBuilder();
-//				builder.append("USES FEATURES:\n");
-//				for(RemoteControlFeature flag:usesFeatures) {
-//					builder.append(flag.name());
-//					builder.append("\n");
-//				}
-//				mFlagsTextView.setText(builder.toString());
-//			}
-//		});
 		
-		//setting up playback state change listener
-//		mProvider.setOnPlaybackStateChangeListener(new OnPlaybackStateChangeListener() {
-//			@Override
-//			public void onPlaybackStateChanged(PlayState playbackState) {
-//				mStateTextView.setText("PLAYBACK STATE: "+playbackState.name());
-//			}
-//		});
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+			//setting up remote control flags listener
+			mProvider
+					.setOnRemoteControlFeaturesChangeListener(new OnRemoteControlFeaturesChangeListener() {
+						@Override
+						public void onFeaturesChanged(
+								List<RemoteControlFeature> usesFeatures) {
+							StringBuilder builder = new StringBuilder();
+							builder.append("USES FEATURES:\n");
+							for (RemoteControlFeature flag : usesFeatures) {
+								builder.append(flag.name());
+								builder.append("\n");
+							}
+							mFlagsTextView.setText(builder.toString());
+						}
+					});
+		}
+		
+		
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+			//setting up playback state change listener
+			mProvider
+					.setOnPlaybackStateChangeListener(new OnPlaybackStateChangeListener() {
+						@Override
+						public void onPlaybackStateChanged(
+								PlayState playbackState) {
+							mStateTextView.setText("PLAYBACK STATE: "
+									+ playbackState.name());
+						}
+					});
+		}
+		
 		
 		//now setting up listeners for remote media control buttons
 		//we check the return of the RemoteMetadataProvider#sendMediaCommand because
@@ -134,8 +156,9 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
-//					if(!mProvider.sendMediaCommand(MediaCommand.PLAY_PAUSE)) {
-//						Toast.makeText(getApplicationContext(), "Failed to send PLAY_PAUSE_EVENT", Toast.LENGTH_SHORT).show();
+					if(!mProvider.sendMediaCommand(MediaCommand.PLAY_PAUSE)) {
+						Toast.makeText(getApplicationContext(), "Failed to send PLAY_PAUSE_EVENT", Toast.LENGTH_SHORT).show();
+					}
 				} else {
 					Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
 					i.putExtra("command", "PlayPause");
@@ -158,9 +181,9 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
-//					if(!mProvider.sendMediaCommand(MediaCommand.PLAY)) {
-//						Toast.makeText(getApplicationContext(), "Failed to send PLAY_EVENT", Toast.LENGTH_SHORT).show();
-//					}
+					if(!mProvider.sendMediaCommand(MediaCommand.PLAY)) {
+						Toast.makeText(getApplicationContext(), "Failed to send PLAY_EVENT", Toast.LENGTH_SHORT).show();
+					}
 				} else {
 					Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
 					i.putExtra("command", "Play");
@@ -183,8 +206,9 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
-//					if(!mProvider.sendMediaCommand(MediaCommand.PAUSE)) {
-//						Toast.makeText(getApplicationContext(), "Failed to send PAUSE_EVENT", Toast.LENGTH_SHORT).show();
+					if(!mProvider.sendMediaCommand(MediaCommand.PAUSE)) {
+						Toast.makeText(getApplicationContext(), "Failed to send PAUSE_EVENT", Toast.LENGTH_SHORT).show();
+					}
 				} else {
 					Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
 					i.putExtra("command", "Pause");
@@ -206,8 +230,9 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
-//					if(!mProvider.sendMediaCommand(MediaCommand.NEXT)) {
-//						Toast.makeText(getApplicationContext(), "Failed to send NEXT_EVENT", Toast.LENGTH_SHORT).show();
+					if(!mProvider.sendMediaCommand(MediaCommand.NEXT)) {
+						Toast.makeText(getApplicationContext(), "Failed to send NEXT_EVENT", Toast.LENGTH_SHORT).show();
+					}
 				} else {
 					Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
 					i.putExtra("command", "Next");
@@ -229,8 +254,9 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
-//					if(!mProvider.sendMediaCommand(MediaCommand.PREVIOUS)) {
-//						Toast.makeText(getApplicationContext(), "Failed to send PREVIOUS_EVENT", Toast.LENGTH_SHORT).show();
+					if(!mProvider.sendMediaCommand(MediaCommand.PREVIOUS)) {
+						Toast.makeText(getApplicationContext(), "Failed to send PREVIOUS_EVENT", Toast.LENGTH_SHORT).show();
+					}
 				} else {
 					Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
 					i.putExtra("command", "Prev");
@@ -324,18 +350,16 @@ public class MainActivity extends Activity {
 		super.onResume();
 		
 		//acquiring remote media controls
-//		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2){
-//			mProvider.acquireRemoteControls();
-//		} else {
-//			mProvider.acquireRemoteControls(maxWidth, maxHeight);
-//		}
-		
-		//KitKat
-		Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
-		i.putExtra("command", "registerRC");
-		sendBroadcast(i);
-	
-		
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2){
+			mProvider.acquireRemoteControls();
+		} else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+			mProvider.acquireRemoteControls(maxWidth, maxHeight);
+		} else {
+			//KitKat
+			Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
+			i.putExtra("command", "registerRC");
+			sendBroadcast(i);
+		}
 	}
 	
 	@Override
