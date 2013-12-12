@@ -344,6 +344,9 @@ public class MainActivity extends Activity {
 	public void onDestroy() {
 		super.onDestroy();
 		unregisterReceiver(nReceiver);
+		Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
+		i.putExtra("command", "unregisterRC");
+		sendBroadcast(i);
 	}
 	@Override
 	public void onResume() {
@@ -366,13 +369,14 @@ public class MainActivity extends Activity {
 	public void onPause() {
 		super.onPause();
 		
-		//dropping remote media controls
-//		mProvider.dropRemoteControls(true);
-		
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+			//dropping remote media controls
+			mProvider.dropRemoteControls(true);
+		}
 		//KitKat
-		Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
-		i.putExtra("command", "unregisterRC");
-		sendBroadcast(i);
+//		Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
+//		i.putExtra("command", "unregisterRC");
+//		sendBroadcast(i);
 	}
 	
 	class NotificationReceiver extends BroadcastReceiver{

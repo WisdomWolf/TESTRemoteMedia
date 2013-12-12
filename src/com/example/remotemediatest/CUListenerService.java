@@ -70,9 +70,6 @@ public class CUListenerService extends NotificationListenerService implements On
 	public void onClientChange(boolean clearing){
 		//Called whenever all information, previously received through the other methods of the listener, is no longer valid and is about to be refreshed.
 		Log.d(TAG,"Client Change triggered. Clearing = " + clearing);
-		Intent i = new Intent("com.example.remotemediatest.METADATA_YAY");
-		i.putExtra("toast", "Client Change triggered. Clearing = " + clearing);
-		sendBroadcast(i);
 	}
 	
 	/**
@@ -121,9 +118,6 @@ public class CUListenerService extends NotificationListenerService implements On
 	public void onClientPlaybackStateUpdate(int state, long stateChangeTimeMs, long currentPosMs, float speed){
 		//Called whenever the playback state has changed, and playback position and speed are known.
 		Log.d(TAG,"PlaybackState Updated " + state + " " + stateChangeTimeMs + " " + currentPosMs + " " + speed);
-		Intent i = new Intent("com.example.remotemediatest.METADATA_YAY");
-		i.putExtra("toast", "PlaybackState Updated " + state + " " + stateChangeTimeMs + " " + currentPosMs + " " + speed);
-		sendBroadcast(i);
 	}
 	
 	/**
@@ -137,9 +131,6 @@ public class CUListenerService extends NotificationListenerService implements On
 	public void onClientPlaybackStateUpdate(int state){
 		//Called whenever the playback state has changed.
 		Log.d(TAG,"PlaybackState Updated " + state + ".");
-		Intent i = new Intent("com.example.remotemediatest.METADATA_YAY");
-		i.putExtra("toast", "PlaybackState Updated " + state + ".");
-		sendBroadcast(i);
 	}
 	
 	 /**
@@ -151,9 +142,6 @@ public class CUListenerService extends NotificationListenerService implements On
 	public void onClientTransportControlUpdate(int transportControlFlags){
 		//Called whenever the transport control flags have changed.
 		Log.d(TAG,"TransportControlUpdate: " + transportControlFlags);
-		Intent i = new Intent("com.example.remotemediatest.METADATA_YAY");
-		i.putExtra("toast", "TransportControlUpdate: " + transportControlFlags);
-		sendBroadcast(i);
 	}
 	
 	public void acquireRemoteControls(){
