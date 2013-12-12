@@ -1,5 +1,12 @@
 package com.example.remotemediatest;
 
+import org.electricwisdom.unifiedremotemetadataprovider.media.*;
+import org.electricwisdom.unifiedremotemetadataprovider.internal.*;
+import org.electricwisdom.unifiedremotemetadataprovider.*;
+import org.electricwisdom.unifiedremotemetadataprovider.media.enums.*;
+import org.electricwisdom.unifiedremotemetadataprovider.media.listeners.*;
+
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
