@@ -395,10 +395,10 @@ public class MainActivity extends Activity {
 			if (intent.hasExtra("playback_update")) {
 				int playstate = intent.getIntExtra("playback_update", RemoteControlClient.PLAYSTATE_STOPPED);
 				if (playstate != RemoteControlClient.PLAYSTATE_PLAYING) {
-					//mPlaybackButton.setBackgroundResource(R.drawable.play);
+					mPlaybackButton.setBackgroundResource(R.drawable.play);
 					isPlaying = false;
 				} else {
-					//mPlaybackButton.setBackgroundResource(R.drawable.pause);
+					mPlaybackButton.setBackgroundResource(R.drawable.pause);
 					isPlaying = true;
 				}
 			}
