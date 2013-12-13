@@ -71,7 +71,7 @@
             android:id="@+id/play_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/null"
+            android:background="@android:color/transparent"
             android:layout_below="@id/bitmap"
             android:layout_centerHorizontal="true"
             android:src="@drawable/play" />
@@ -80,7 +80,7 @@
             android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/null"
+            android:background="@android:color/transparent"
             android:layout_below="@id/bitmap"
             android:layout_toRightOf="@id/play_pause"
             android:src="@drawable/next" />
@@ -89,7 +89,7 @@
             android:id="@+id/prev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/null"
+            android:background="@android:color/transparent"
             android:layout_below="@id/bitmap"
             android:layout_toLeftOf="@id/play_pause"
             android:src="@drawable/prev" />
