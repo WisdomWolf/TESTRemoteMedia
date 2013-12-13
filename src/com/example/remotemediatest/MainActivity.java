@@ -44,6 +44,7 @@ public class MainActivity extends Activity {
 	private TextView mFlagsTextView;
 	private TextView mStateTextView;
 	private ImageButton mPlaybackButton;
+	private boolean isPlaying = false;
 	private ImageView mArtwork;
 	private NotificationReceiver nReceiver;
 	private int maxWidth = 300;
@@ -164,6 +165,11 @@ public class MainActivity extends Activity {
 					i.putExtra("mediacommand", KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
 					sendBroadcast(i);
 				}	
+				if (isPlaying){
+					v.setBackgroundResource(R.drawable.pause);
+				} else {
+					v.setBackgroundResource(R.drawable.play);
+				}
 			}
 		});
 		
@@ -388,9 +394,11 @@ public class MainActivity extends Activity {
 			}
 			if (intent.hasExtra("playback_update")) {
 				if ((intent.getIntExtra("playback_update", 1)) != RemoteControlClient.PLAYSTATE_PLAYING) {
-					mPlaybackButton.setBackgroundResource(R.drawable.play);
+					//mPlaybackButton.setBackgroundResource(R.drawable.play);
+					isPlaying = false;
 				} else {
-					mPlaybackButton.setBackgroundResource(R.drawable.pause);
+					//mPlaybackButton.setBackgroundResource(R.drawable.pause);
+					isPlaying = true;
 				}
 			}
 			mArtistTextView.setText("ARTIST: " + intent.getStringExtra("Song_Artist"));
