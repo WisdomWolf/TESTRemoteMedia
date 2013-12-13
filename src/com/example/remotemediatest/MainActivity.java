@@ -21,6 +21,7 @@ import android.graphics.Bitmap;
 import android.media.RemoteController;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -68,6 +69,7 @@ public class MainActivity extends Activity {
 		mArtwork=(ImageView)findViewById(R.id.bitmap);
 		mFlagsTextView=(TextView)findViewById(R.id.flags);
 		mStateTextView=(TextView)findViewById(R.id.state);
+		int PlayPause = KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE;
 		
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
 			//Acquiring instance of RemoteMetadataProvider
@@ -161,7 +163,7 @@ public class MainActivity extends Activity {
 					}
 				} else {
 					Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
-					i.putExtra("command", "PlayPause");
+					i.putExtra("mediacommand", KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
 					sendBroadcast(i);
 				}	
 			}
@@ -186,7 +188,7 @@ public class MainActivity extends Activity {
 					}
 				} else {
 					Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
-					i.putExtra("command", "Play");
+					i.putExtra("mediacommand", KeyEvent.KEYCODE_MEDIA_PLAY);
 					sendBroadcast(i);
 				}
 				
@@ -211,7 +213,7 @@ public class MainActivity extends Activity {
 					}
 				} else {
 					Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
-					i.putExtra("command", "Pause");
+					i.putExtra("mediacommand", KeyEvent.KEYCODE_MEDIA_PAUSE);
 					sendBroadcast(i);
 				}
 			}	
@@ -235,7 +237,7 @@ public class MainActivity extends Activity {
 					}
 				} else {
 					Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
-					i.putExtra("command", "Next");
+					i.putExtra("mediacommand", KeyEvent.KEYCODE_MEDIA_NEXT);
 					sendBroadcast(i);
 				}
 			}	
@@ -259,7 +261,7 @@ public class MainActivity extends Activity {
 					}
 				} else {
 					Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
-					i.putExtra("command", "Prev");
+					i.putExtra("mediacommand", KeyEvent.KEYCODE_MEDIA_PREVIOUS);
 					sendBroadcast(i);
 				}
 			}	

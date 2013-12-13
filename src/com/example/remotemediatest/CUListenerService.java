@@ -30,8 +30,6 @@ public class CUListenerService extends NotificationListenerService implements On
 	private AudioManager mAudioManager;
 	private CULServiceReceiver cuservicereceiver;
 	private static final String TAG = "CUListenerService";
-	private KeyEvent keyPlayPauseDown = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
-	private KeyEvent keyPlayPauseUp = new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
 	
 	@Override
     public void onCreate() {
@@ -164,36 +162,18 @@ public class CUListenerService extends NotificationListenerService implements On
 
 	        @Override
 	        public void onReceive(Context context, Intent intent) {
-	        	if(intent.hasExtra("command")){
+	        	if (intent.hasExtra("command")){
 	        		 if(intent.getStringExtra("command").equals("registerRC")){
 	        			acquireRemoteControls();
 	        		 }
 	        		 else if (intent.getStringExtra("command").equals("unregisterRC")) {
 	        			 dropRemoteControls(true);
 	        		 }
-	        		 else if (intent.getStringExtra("command").equals("PlayPause")) {
-	        			 mRemoteController.sendMediaKeyEvent(keyPlayPauseDown);
-	        			 mRemoteController.sendMediaKeyEvent(keyPlayPauseUp);
-	        		 }
-	        		 else if (intent.getStringExtra("command").equals("Play")) {
-	        			 //str key = intent.getStringExtra("command");
-	        			 //int keycode = KeyEvent.key;
-	        			 mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY));
-	        			 mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY));
-	        			 //mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.
-	        		 }
-	        		 else if (intent.getStringExtra("command").equals("Pause")) {
-	        			 mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PAUSE));
-	        			 mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PAUSE));
-	        		 }
-	        		 else if (intent.getStringExtra("command").equals("Next")) {
-	        			 mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT));
-	        			 mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_NEXT));
-	        		 }
-	        		 else if (intent.getStringExtra("command").equals("Prev")) {
-	        			 mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PREVIOUS));
-	        			 mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PREVIOUS));
-	        		 }
+	        	}
+	        	if (intent.hasExtra("mediacommand")){
+	        		int keycode = intent.getIntExtra("mediacommand", 0);
+       			 	mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, keycode));
+       			 	mRemoteController.sendMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, keycode));
 	        	}
 	        }
 	 }
