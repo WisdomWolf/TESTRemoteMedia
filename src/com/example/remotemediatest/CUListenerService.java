@@ -90,6 +90,7 @@ public class CUListenerService extends NotificationListenerService implements On
 		long songDuration = metadataEditor.getLong(MediaMetadataRetriever.METADATA_KEY_DURATION, 10);
 		Bitmap coverArt = metadataEditor.getBitmap(MediaMetadataEditor.BITMAP_KEY_ARTWORK, null);
 		Intent i = new  Intent("com.example.remotemediatest.METADATA_YAY");
+		i.putExtra("metadata", true);
         i.putExtra("Song_Artist", songArtist);
         i.putExtra("Song_Title", songTitle);
         i.putExtra("Album_Artist", albumArtist);

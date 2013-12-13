@@ -165,10 +165,10 @@ public class MainActivity extends Activity {
 					i.putExtra("mediacommand", KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
 					sendBroadcast(i);
 				}	
-				if (isPlaying){
-					v.setBackgroundResource(R.drawable.pause);
-				} else {
+				if (!isPlaying){
 					v.setBackgroundResource(R.drawable.play);
+				} else {
+					v.setBackgroundResource(R.drawable.pause);
 				}
 			}
 		});
@@ -393,7 +393,8 @@ public class MainActivity extends Activity {
 				Toast.makeText(getApplicationContext(), intent.getStringExtra("toast"), Toast.LENGTH_SHORT).show();
 			}
 			if (intent.hasExtra("playback_update")) {
-				if ((intent.getIntExtra("playback_update", 1)) != RemoteControlClient.PLAYSTATE_PLAYING) {
+				int playstate = intent.getIntExtra("playback_update", RemoteControlClient.PLAYSTATE_STOPPED);
+				if (playstate != RemoteControlClient.PLAYSTATE_PLAYING) {
 					//mPlaybackButton.setBackgroundResource(R.drawable.play);
 					isPlaying = false;
 				} else {
@@ -401,13 +402,20 @@ public class MainActivity extends Activity {
 					isPlaying = true;
 				}
 			}
-			mArtistTextView.setText("ARTIST: " + intent.getStringExtra("Song_Artist"));
-			mTitleTextView.setText("TITLE: " + intent.getStringExtra("Song_Title"));
-			mAlbumTextView.setText("ALBUM: " + intent.getStringExtra("Album_Title"));
-			mAlbumArtistTextView.setText("ALBUM ARTIST: " + intent.getStringExtra("Album_Artist"));
-			mDurationTextView.setText("DURATION: " + intent.getLongExtra("Song_Duration", 11));
-			Bitmap coverArt = intent.getParcelableExtra("Cover_Art");
-			mArtwork.setImageBitmap(coverArt);
+			if (intent.hasExtra("metadata")) {
+				mArtistTextView.setText("ARTIST: "
+						+ intent.getStringExtra("Song_Artist"));
+				mTitleTextView.setText("TITLE: "
+						+ intent.getStringExtra("Song_Title"));
+				mAlbumTextView.setText("ALBUM: "
+						+ intent.getStringExtra("Album_Title"));
+				mAlbumArtistTextView.setText("ALBUM ARTIST: "
+						+ intent.getStringExtra("Album_Artist"));
+				mDurationTextView.setText("DURATION: "
+						+ intent.getLongExtra("Song_Duration", 11));
+				Bitmap coverArt = intent.getParcelableExtra("Cover_Art");
+				mArtwork.setImageBitmap(coverArt);
+			}
 		}
 	}
 	
