@@ -177,21 +177,21 @@ public class MainActivity extends Activity {
 //			}
 //		});
 		
-		findViewById(R.id.play).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
-					if(!mProvider.sendMediaCommand(MediaCommand.PLAY)) {
-						Toast.makeText(getApplicationContext(), "Failed to send PLAY_EVENT", Toast.LENGTH_SHORT).show();
-					}
-				} else {
-					Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
-					i.putExtra("mediacommand", KeyEvent.KEYCODE_MEDIA_PLAY);
-					sendBroadcast(i);
-				}
-				
-			}	
-		});
+//		findViewById(R.id.play).setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
+//					if(!mProvider.sendMediaCommand(MediaCommand.PLAY)) {
+//						Toast.makeText(getApplicationContext(), "Failed to send PLAY_EVENT", Toast.LENGTH_SHORT).show();
+//					}
+//				} else {
+//					Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
+//					i.putExtra("mediacommand", KeyEvent.KEYCODE_MEDIA_PLAY);
+//					sendBroadcast(i);
+//				}
+//				
+//			}	
+//		});
 		
 //		findViewById(R.id.play).setOnLongClickListener(new OnLongClickListener() {
 //			@Override
@@ -202,20 +202,20 @@ public class MainActivity extends Activity {
 //			}
 //		});
 		
-		findViewById(R.id.pause).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
-					if(!mProvider.sendMediaCommand(MediaCommand.PAUSE)) {
-						Toast.makeText(getApplicationContext(), "Failed to send PAUSE_EVENT", Toast.LENGTH_SHORT).show();
-					}
-				} else {
-					Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
-					i.putExtra("mediacommand", KeyEvent.KEYCODE_MEDIA_PAUSE);
-					sendBroadcast(i);
-				}
-			}	
-		});
+//		findViewById(R.id.pause).setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
+//					if(!mProvider.sendMediaCommand(MediaCommand.PAUSE)) {
+//						Toast.makeText(getApplicationContext(), "Failed to send PAUSE_EVENT", Toast.LENGTH_SHORT).show();
+//					}
+//				} else {
+//					Intent i = new Intent("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
+//					i.putExtra("mediacommand", KeyEvent.KEYCODE_MEDIA_PAUSE);
+//					sendBroadcast(i);
+//				}
+//			}	
+//		});
 		
 //		findViewById(R.id.pause).setOnLongClickListener(new OnLongClickListener() {
 //			@Override
