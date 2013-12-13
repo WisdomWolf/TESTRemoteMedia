@@ -18,12 +18,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.media.RemoteControlClient;
 import android.media.RemoteController;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +43,7 @@ public class MainActivity extends Activity {
 	private TextView mDurationTextView;
 	private TextView mFlagsTextView;
 	private TextView mStateTextView;
+	private ImageButton mPlaybackButton;
 	private ImageView mArtwork;
 	private NotificationReceiver nReceiver;
 	private int maxWidth = 300;
@@ -69,7 +72,7 @@ public class MainActivity extends Activity {
 		mArtwork=(ImageView)findViewById(R.id.bitmap);
 		mFlagsTextView=(TextView)findViewById(R.id.flags);
 		mStateTextView=(TextView)findViewById(R.id.state);
-		int PlayPause = KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE;
+		mPlaybackButton=(ImageButton)findViewById(R.id.play_pause);
 		
 		
 		
@@ -382,6 +385,13 @@ public class MainActivity extends Activity {
 		public void onReceive(Context context, Intent intent) {
 			if (intent.hasExtra("toast")) {
 				Toast.makeText(getApplicationContext(), intent.getStringExtra("toast"), Toast.LENGTH_SHORT).show();
+			}
+			if (intent.hasExtra("playback_update")) {
+				if ((intent.getIntExtra("playback_update", 1)) != RemoteControlClient.PLAYSTATE_PLAYING) {
+					mPlaybackButton.setBackgroundResource(R.drawable.play);
+				} else {
+					mPlaybackButton.setBackgroundResource(R.drawable.pause);
+				}
 			}
 			mArtistTextView.setText("ARTIST: " + intent.getStringExtra("Song_Artist"));
 			mTitleTextView.setText("TITLE: " + intent.getStringExtra("Song_Title"));

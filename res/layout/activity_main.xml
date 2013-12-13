@@ -71,41 +71,28 @@
             android:id="@+id/play_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@android:color/null"
             android:layout_below="@id/bitmap"
             android:layout_centerHorizontal="true"
-            android:src="@android:drawable/ic_menu_help" />
-        
-        <ImageButton
-            android:id="@+id/play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/bitmap"
-            android:layout_toRightOf="@id/play_pause"
-            android:src="@android:drawable/ic_media_play" />
-        
-        <ImageButton
-            android:id="@+id/pause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/bitmap"
-            android:layout_toLeftOf="@id/play_pause"
-            android:src="@android:drawable/ic_media_pause" />
+            android:src="@drawable/play" />
         
         <ImageButton
             android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@android:color/null"
             android:layout_below="@id/bitmap"
-            android:layout_toRightOf="@id/play"
-            android:src="@android:drawable/ic_media_next" />
+            android:layout_toRightOf="@id/play_pause"
+            android:src="@drawable/next" />
         
         <ImageButton
             android:id="@+id/prev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@android:color/null"
             android:layout_below="@id/bitmap"
-            android:layout_toLeftOf="@id/pause"
-            android:src="@android:drawable/ic_media_previous" />
+            android:layout_toLeftOf="@id/play_pause"
+            android:src="@drawable/prev" />
         
         <View
             android:id="@+id/centerer"

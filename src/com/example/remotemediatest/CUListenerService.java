@@ -129,6 +129,9 @@ public class CUListenerService extends NotificationListenerService implements On
 	public void onClientPlaybackStateUpdate(int state){
 		//Called whenever the playback state has changed.
 		Log.d(TAG,"PlaybackState Updated " + state + ".");
+		Intent i = new  Intent("com.example.remotemediatest.METADATA_YAY");
+		i.putExtra("playback_update", state);
+		sendBroadcast(i);
 	}
 	
 	 /**
