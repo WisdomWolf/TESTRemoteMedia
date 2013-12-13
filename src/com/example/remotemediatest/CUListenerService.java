@@ -116,7 +116,7 @@ public class CUListenerService extends NotificationListenerService implements On
 	@Override
 	public void onClientPlaybackStateUpdate(int state, long stateChangeTimeMs, long currentPosMs, float speed){
 		//Called whenever the playback state has changed, and playback position and speed are known.
-		Log.d(TAG,"PlaybackState Updated " + state + " " + stateChangeTimeMs + " " + currentPosMs + " " + speed);
+		Log.d(TAG,"PlaybackState Updated with all info " + state + " " + stateChangeTimeMs + " " + currentPosMs + " " + speed);
 		Intent i = new  Intent("com.example.remotemediatest.METADATA_YAY");
 		i.putExtra("playback_update", state);
 		sendBroadcast(i);
