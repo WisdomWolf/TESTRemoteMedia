@@ -71,30 +71,7 @@ public class MainActivity extends Activity {
 		mStateTextView=(TextView)findViewById(R.id.state);
 		int PlayPause = KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE;
 		
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-			//Acquiring instance of RemoteMetadataProvider
-			mProvider = RemoteMetadataProvider.getInstance(this);
-		}
 		
-		
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-			//setting up metadata listener
-			mProvider
-					.setOnMetadataChangeListener(new OnMetadataChangeListener() {
-						@Override
-						public void onMetadataChanged(String artist,
-								String title, String album, String albumArtist,
-								long duration) {
-							mArtistTextView.setText("ARTIST: " + artist);
-							mTitleTextView.setText("TITLE: " + title);
-							mAlbumTextView.setText("ALBUM: " + album);
-							mAlbumArtistTextView.setText("ALBUM ARTIST: "
-									+ albumArtist);
-							mDurationTextView.setText("DURATION: "
-									+ (duration / 1000) + "s");
-						}
-					});
-		}
 		
 		
 		//setting up KitKate metadata listener
@@ -102,47 +79,65 @@ public class MainActivity extends Activity {
 		
 		
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-			//setting up artwork listener
-			mProvider.setOnArtworkChangeListener(new OnArtworkChangeListener() {
-				@Override
-				public void onArtworkChanged(Bitmap artwork) {
-					mArtwork.setImageBitmap(artwork);
-				}
-			});
-		}
-		
-		
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-			//setting up remote control flags listener
-			mProvider
-					.setOnRemoteControlFeaturesChangeListener(new OnRemoteControlFeaturesChangeListener() {
-						@Override
-						public void onFeaturesChanged(
-								List<RemoteControlFeature> usesFeatures) {
-							StringBuilder builder = new StringBuilder();
-							builder.append("USES FEATURES:\n");
-							for (RemoteControlFeature flag : usesFeatures) {
-								builder.append(flag.name());
-								builder.append("\n");
+				//Acquiring instance of RemoteMetadataProvider
+				mProvider = RemoteMetadataProvider.getInstance(this);
+				//setting up metadata listener
+				mProvider
+						.setOnMetadataChangeListener(new OnMetadataChangeListener() {
+							@Override
+							public void onMetadataChanged(String artist,
+									String title, String album,
+									String albumArtist, long duration) {
+								mArtistTextView.setText("ARTIST: " + artist);
+								mTitleTextView.setText("TITLE: " + title);
+								mAlbumTextView.setText("ALBUM: " + album);
+								mAlbumArtistTextView.setText("ALBUM ARTIST: "
+										+ albumArtist);
+								mDurationTextView.setText("DURATION: "
+										+ (duration / 1000) + "s");
 							}
-							mFlagsTextView.setText(builder.toString());
-						}
-					});
+						});
+	
+				//setting up artwork listener
+				mProvider
+						.setOnArtworkChangeListener(new OnArtworkChangeListener() {
+							@Override
+							public void onArtworkChanged(Bitmap artwork) {
+								mArtwork.setImageBitmap(artwork);
+							}
+						});
+				
+
+				//setting up remote control flags listener
+				mProvider
+						.setOnRemoteControlFeaturesChangeListener(new OnRemoteControlFeaturesChangeListener() {
+							@Override
+							public void onFeaturesChanged(
+									List<RemoteControlFeature> usesFeatures) {
+								StringBuilder builder = new StringBuilder();
+								builder.append("USES FEATURES:\n");
+								for (RemoteControlFeature flag : usesFeatures) {
+									builder.append(flag.name());
+									builder.append("\n");
+								}
+								mFlagsTextView.setText(builder.toString());
+							}
+						});
+			
+			
+				//setting up playback state change listener
+				mProvider
+						.setOnPlaybackStateChangeListener(new OnPlaybackStateChangeListener() {
+							@Override
+							public void onPlaybackStateChanged(
+									PlayState playbackState) {
+								mStateTextView.setText("PLAYBACK STATE: "
+										+ playbackState.name());
+							}
+						});
+			
 		}
 		
-		
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-			//setting up playback state change listener
-			mProvider
-					.setOnPlaybackStateChangeListener(new OnPlaybackStateChangeListener() {
-						@Override
-						public void onPlaybackStateChanged(
-								PlayState playbackState) {
-							mStateTextView.setText("PLAYBACK STATE: "
-									+ playbackState.name());
-						}
-					});
-		}
 		
 		
 		//now setting up listeners for remote media control buttons
