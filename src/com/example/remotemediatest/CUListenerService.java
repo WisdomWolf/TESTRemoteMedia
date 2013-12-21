@@ -23,7 +23,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 
-@TargetApi(19)
+@TargetApi(18)
 public class CUListenerService extends NotificationListenerService {
 	
 	public RemoteController mRemoteController;
