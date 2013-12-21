@@ -25,16 +25,25 @@ import android.view.KeyEvent;
 @TargetApi(19)
 public class CUListenerService extends NotificationListenerService {
 	
+	public RemoteController mRemoteController;
+	private AudioManager mAudioManager;
+	//private CULServiceReceiver cuservicereceiver;
+	private static final String TAG = "CUListenerService";
 	
 	@Override
-    public void onCreate() {
-        super.onCreate();
-    }
+	public void onCreate() {
+		super.onCreate();
+		cuservicereceiver = new CULServiceReceiver();
+		IntentFilter filter = new IntentFilter();
+		filter.addAction("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
+		registerReceiver(cuservicereceiver,filter);
+	}
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		unregisterReceiver(cuservicereceiver);
+	}
 	
 	@Override
 	public void onNotificationPosted(StatusBarNotification sbn){
@@ -47,37 +56,10 @@ public class CUListenerService extends NotificationListenerService {
 	}
 	
 	
-	class KKListenerService extends NotificationListenerService implements OnClientUpdateListener{
-		public RemoteController mRemoteController;
-		private AudioManager mAudioManager;
-		private CULServiceReceiver cuservicereceiver;
-		private static final String TAG = "CUListenerService";
-
-		@Override
-		public void onCreate() {
-			super.onCreate();
-			cuservicereceiver = new CULServiceReceiver();
-			IntentFilter filter = new IntentFilter();
-			filter.addAction("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
-			registerReceiver(cuservicereceiver,filter);
-		}
-
-		@Override
-		public void onDestroy() {
-			super.onDestroy();
-			unregisterReceiver(cuservicereceiver);
-		}
+	new OnClientUpdateListener(){
 		
-		@Override
-		public void onNotificationPosted(StatusBarNotification sbn){
-			//do stuff
-		}
-		
-		@Override
-		public void onNotificationRemoved(StatusBarNotification sbn){
-			//do more stuff
-		}
 
+		
 		/**
 		 * Called whenever all information, previously received through the other
 		 * methods of the listener, is no longer valid and is about to be refreshed.
@@ -188,6 +170,7 @@ public class CUListenerService extends NotificationListenerService {
 				Log.w(TAG, "Failed to get instance of AudioManager while adropping remote media controls");
 			}
 		}
+	};
 
 		class CULServiceReceiver extends BroadcastReceiver{
 
