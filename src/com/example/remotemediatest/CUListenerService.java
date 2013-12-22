@@ -28,10 +28,11 @@ import android.view.KeyEvent;
 public class CUListenerService extends NotificationListenerService {
 	
 	public RemoteController mRemoteController;
-	public OnClientUpdateListener mClientUpdateListener;
+	public RemoteController.OnClientUpdateListener mClientUpdateListener;
 	private AudioManager mAudioManager;
 	private CULServiceReceiver cuservicereceiver;
 	private static final String TAG = "CUListenerService";
+	private Context mContext;
 	
 	@Override
 	public void onCreate() {
@@ -40,10 +41,11 @@ public class CUListenerService extends NotificationListenerService {
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
 		registerReceiver(cuservicereceiver,filter);
+		mContext = getApplicationContext();
 		
 		
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			mClientUpdateListener = new RemoteController.OnClientUpdateListener() {
+			mClientUpdateListener = new OnClientUpdateListener() {
 
 						/**
 						 * Called whenever all information, previously received through the other
@@ -185,9 +187,9 @@ public class CUListenerService extends NotificationListenerService {
 	}
 	
 	public void acquireRemoteControls(){
-		mAudioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+		mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
 		Log.d(TAG, "AudioManager Set");
-		mRemoteController = new RemoteController(this, mClientUpdateListener);
+		mRemoteController = new RemoteController(mContext, mClientUpdateListener);
 		Log.d(TAG, "RemoteController instantiated");
 		if (!mRemoteController.setArtworkConfiguration(300, 300)){
 			Log.d(TAG, "Set ArtworkConfiguration failed.");
