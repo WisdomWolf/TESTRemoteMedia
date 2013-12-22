@@ -43,7 +43,7 @@ public class CUListenerService extends NotificationListenerService {
 		
 		
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			mClientUpdateListener = new OnClientUpdateListener() {
+			mClientUpdateListener = new RemoteController.OnClientUpdateListener() {
 
 						/**
 						 * Called whenever all information, previously received through the other
@@ -186,9 +186,15 @@ public class CUListenerService extends NotificationListenerService {
 	
 	public void acquireRemoteControls(){
 		mAudioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+		Log.d(TAG, "AudioManager Set");
 		mRemoteController = new RemoteController(this, mClientUpdateListener);
-		mRemoteController.setArtworkConfiguration(300, 300);
-		mAudioManager.registerRemoteController(mRemoteController);
+		Log.d(TAG, "RemoteController instantiated");
+		if (!mRemoteController.setArtworkConfiguration(300, 300)){
+			Log.d(TAG, "Set ArtworkConfiguration failed.");
+		}
+		if (!mAudioManager.registerRemoteController(mRemoteController)){
+			Log.d(TAG, "RemoteController registration failed.");
+		}
 	}
 
 	public void dropRemoteControls(boolean destroyRemoteControls) {
@@ -196,7 +202,7 @@ public class CUListenerService extends NotificationListenerService {
 			mAudioManager.unregisterRemoteController(mRemoteController);
 			if (destroyRemoteControls) mRemoteController = null;
 		} else {
-			Log.w(TAG, "Failed to get instance of AudioManager while adropping remote media controls");
+			Log.w(TAG, "Failed to get instance of AudioManager while dropping remote media controls");
 		}
 	}
 	class CULServiceReceiver extends BroadcastReceiver{
