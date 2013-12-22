@@ -4,6 +4,7 @@ package com.example.remotemediatest;
 
 
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,10 +24,11 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 
-@TargetApi(18)
+@SuppressLint("NewApi")
 public class CUListenerService extends NotificationListenerService {
 	
 	public RemoteController mRemoteController;
+	public OnClientUpdateListener mClientUpdateListener;
 	private AudioManager mAudioManager;
 	private CULServiceReceiver cuservicereceiver;
 	private static final String TAG = "CUListenerService";
@@ -39,9 +41,9 @@ public class CUListenerService extends NotificationListenerService {
 		filter.addAction("com.example.remotemediatest.REMOTE_CONTROLLER_COMMANDS");
 		registerReceiver(cuservicereceiver,filter);
 		
+		
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			mRemoteController = new RemoteController(this,
-					new OnClientUpdateListener() {
+			mClientUpdateListener = new OnClientUpdateListener() {
 
 						/**
 						 * Called whenever all information, previously received through the other
@@ -162,7 +164,7 @@ public class CUListenerService extends NotificationListenerService {
 							Log.d(TAG, "TransportControlUpdate: "
 									+ transportControlFlags);
 						}
-					});
+					};
 		}
 	}
 
@@ -181,10 +183,10 @@ public class CUListenerService extends NotificationListenerService {
 	public void onNotificationRemoved(StatusBarNotification sbn){
 		//do more stuff
 	}
-
+	
 	public void acquireRemoteControls(){
 		mAudioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
-		
+		mRemoteController = new RemoteController(this, mClientUpdateListener);
 		mRemoteController.setArtworkConfiguration(300, 300);
 		mAudioManager.registerRemoteController(mRemoteController);
 	}
