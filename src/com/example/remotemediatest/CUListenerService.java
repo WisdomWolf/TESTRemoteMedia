@@ -22,6 +22,7 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.media.RemoteControllerHelper;
 
 
 @SuppressLint("NewApi")
@@ -33,6 +34,7 @@ public class CUListenerService extends NotificationListenerService {
 	private CULServiceReceiver cuservicereceiver;
 	private static final String TAG = "CUListenerService";
 	private Context mContext;
+	private RemoteControllerHelper mRCHelper;
 	
 	@Override
 	public void onCreate() {
@@ -190,12 +192,18 @@ public class CUListenerService extends NotificationListenerService {
 		mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
 		Log.d(TAG, "AudioManager Set");
 		mRemoteController = new RemoteController(mContext, mClientUpdateListener);
+		mRCHelper = new RemoteControllerHelper(mRemoteController, mContext);
 		Log.d(TAG, "RemoteController instantiated");
 		if (!mRemoteController.setArtworkConfiguration(300, 300)){
 			Log.d(TAG, "Set ArtworkConfiguration failed.");
 		}
 		if (!mAudioManager.registerRemoteController(mRemoteController)){
-			Log.d(TAG, "RemoteController registration failed.");
+			Log.d(TAG, "RemoteController registration via AudioManager failed.");
+			if (mRCHelper.registerRemoteController(mRemoteController)){
+				Log.d(TAG, "RemoteController successfully registered via helper.");
+			} else {
+				Log.d(TAG, "RemoteController registration failed permanently.");
+			}
 		}
 	}
 
