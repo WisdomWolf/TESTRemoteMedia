@@ -18,6 +18,7 @@ import android.media.RemoteControlClient;
 import android.media.RemoteController;
 import android.media.RemoteController.OnClientUpdateListener;
 import android.os.Build;
+import android.os.RemoteException;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
@@ -205,6 +206,20 @@ public class CUListenerService extends NotificationListenerService {
 				Log.d(TAG, "RemoteController registration failed permanently.");
 			}
 		}
+	}
+	
+	public boolean registerRemoteController(RemoteController rctlr){
+		try {
+            int[] artworkDimensions = rctlr.getArtworkSize();
+            boolean reg = service.registerRemoteController(rctlr.getRcDisplay(),
+                    artworkDimensions[0]/*w*/, artworkDimensions[1]/*h*/,
+                    listenerComponent);
+            rctlr.setIsRegistered(reg);
+            return reg;
+        } catch (RemoteException e) {
+            Log.e(TAG, "Dead object in registerRemoteController " + e);
+            return false;
+        }
 	}
 
 	public void dropRemoteControls(boolean destroyRemoteControls) {
